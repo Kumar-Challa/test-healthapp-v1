@@ -1,0 +1,18 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: test-healthapp-job
+spec:
+  schedule: "*/1 * * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+            - name: test-healthapp
+              image: kumarch99/test-healthapp:v1
+              args:
+                - /bin/sh
+                - -c
+                - curl -s http://localhost:8999/info >> /mnt/logs/app.log
+          restartPolicy: Never

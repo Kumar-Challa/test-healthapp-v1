@@ -1,0 +1,27 @@
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: test-healthapp-nwp
+spec:
+  podSelector:
+    matchLabels:
+      app: test-healthapp
+  policyTypes:
+    - Ingress
+    - Egress
+  ingress:
+    - from:
+        - podSelector:
+            matchLabels:
+              app: test-healthapp
+          ports:
+            - protocol: TCP
+              port: 8999
+  egress:
+    - to:
+        - podSelector:
+            matchLabels:
+              app: test-healthapp-job
+          ports:
+            - protocol: TCP
+              port: 80
